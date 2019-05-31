@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="ExcelTableMerger.MappingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ExcelTableMerger"
+             mc:Ignorable="d" 
+             d:DesignHeight="374" d:DesignWidth="911">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="MappingRoot" />
+        </ScrollViewer>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Joined" Margin="4" />
+                <TextBlock x:Name="JoinedRowCountTextBlock"
+                           Text="1337"
+                           Grid.Column="1"
+                           Margin="4"
+                           FontWeight="Bold" />
+            </Grid>
+            <DataGrid x:Name="JoinedDataGrid"
+                      EnableRowVirtualization="True"
+                      EnableColumnVirtualization="True"
+                      ScrollViewer.CanContentScroll="True"
+                      AutoGenerateColumns="False"
+                      ColumnWidth="100"
+                      Margin="4"
+                      Grid.Row="1"
+                      Grid.ColumnSpan="2" />
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Main - Unmatched"
+                           Margin="4"
+                           TextTrimming="CharacterEllipsis" />
+                <TextBlock x:Name="MainUnmatchedRowCountTextBlock"
+                           Text="1337"
+                           Grid.Column="1"
+                           Margin="4"
+                           FontWeight="Bold" />
+                <CheckBox x:Name="DeleteRowsCheckBox"
+                          Content="Delete rows"
+                          Grid.Column="2"
+                          Margin="4" />
+            </Grid>
+            <DataGrid x:Name="MainUnmatchedDataGrid"
+                      EnableRowVirtualization="True"
+                      EnableColumnVirtualization="True"
+                      ScrollViewer.CanContentScroll="True"
+                      AutoGenerateColumns="False"
+                      ColumnWidth="100"
+                      Margin="4"
+                      Grid.Row="3" />
+            <Grid Grid.Row="2" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Lookup - Unmatched"
+                           Margin="4"
+                           TextTrimming="CharacterEllipsis" />
+                <TextBlock x:Name="LookupUnmatchedRowCountTextBlock"
+                           Text="1337"
+                           Grid.Column="1"
+                           Margin="4"
+                           FontWeight="Bold" />
+                <CheckBox x:Name="AddRowsCheckBox"
+                          Content="Add rows"
+                          Grid.Column="2"
+                          Margin="4"  />
+            </Grid>
+            <DataGrid x:Name="LookupUnmatchedDataGrid"
+                      EnableRowVirtualization="True"
+                      EnableColumnVirtualization="True"
+                      ScrollViewer.CanContentScroll="True"
+                      AutoGenerateColumns="False"
+                      ColumnWidth="100"
+                      Margin="4"
+                      Grid.Row="3"
+                      Grid.Column="1" />
+        </Grid>
+    </Grid>
+</UserControl>

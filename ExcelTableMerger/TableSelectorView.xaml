@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="ExcelTableMerger.TableSelectorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ExcelTableMerger"
+             mc:Ignorable="d" 
+             d:DesignHeight="379" d:DesignWidth="603">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <Button x:Name="OpenButton" Content="Open file" Click="Workbook_OnClick" Margin="4" />
+            <TextBlock x:Name="FilePathTextBlock" TextWrapping="Wrap" VerticalAlignment="Center" Margin="4" />
+            <TextBlock Text="Table:" VerticalAlignment="Center" Margin="4" />
+            <ComboBox x:Name="TablesComboBox" IsEnabled="False" SelectionChanged="TablesComboBox_SelectionChanged" Margin="4" />
+            <Button x:Name="SetFilterButton" Content="Set filter" Click="SetFilterButton_Click" Margin="4" />
+            <TextBlock x:Name="FilterTextBlock" Margin="4" />
+            <Button x:Name="ClearFilterButton" Content="Clear filter" Margin="4" Click="ClearFilterButton_Click" />
+            <TextBlock Text="Key:" VerticalAlignment="Center" Margin="4" />
+            <ComboBox x:Name="KeyComboBox" IsEnabled="False" SelectionChanged="KeyComboBox_SelectionChanged" Margin="4" />
+        </StackPanel>
+
+        <DataGrid Grid.Column="1"
+                  IsReadOnly="True"
+                  x:Name="PreviewDataGrid"
+                  EnableRowVirtualization="True"
+                  EnableColumnVirtualization="True"
+                  ScrollViewer.CanContentScroll="True"
+                  ColumnWidth="100.0" />
+    </Grid>
+</UserControl>

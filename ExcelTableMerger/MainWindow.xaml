@@ -1,0 +1,44 @@
+﻿<Window x:Class="ExcelTableMerger.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ExcelTableMerger"
+        mc:Ignorable="d"
+        Title="Excel Table Merger" Height="450" Width="800" Icon="Logo.ico" WindowStartupLocation="CenterScreen">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="2" x:Name="ContentRoot">
+        </Grid>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="1. Main table" FontSize="18" VerticalAlignment="Bottom" />
+            <TextBlock Text=" > " VerticalAlignment="Bottom" />
+            <TextBlock Text="2. Lookup table" VerticalAlignment="Bottom" />
+            <TextBlock Text=" > " VerticalAlignment="Bottom" />
+            <TextBlock Text="3. Configure" VerticalAlignment="Bottom" />
+            <TextBlock Text=" > " VerticalAlignment="Bottom" />
+            <TextBlock Text="4. Preview" VerticalAlignment="Bottom" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Right">
+            <Button x:Name="PreviousButton"
+                    Content="Previous"
+                    IsCancel="True"
+                    Width="80"
+                    Margin="4"
+                    Click="PreviousButton_Click" />
+            <Button x:Name="NextButton"
+                    Content="Next"
+                    IsDefault="True"
+                    Width="80"
+                    Margin="4"
+                    IsEnabled="False"
+                    Click="NextButton_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
