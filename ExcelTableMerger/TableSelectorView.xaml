@@ -3,24 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ExcelTableMerger"
+             xmlns:vm="clr-namespace:ExcelTableMerger.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="379" d:DesignWidth="603">
+             d:DesignHeight="379" d:DesignWidth="603"
+             d:DataContext="{d:DesignInstance Type={x:Type vm:DataSelectorViewModel}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <StackPanel>
-            <Button x:Name="OpenButton" Content="Open file" Click="Workbook_OnClick" Margin="4" />
-            <TextBlock x:Name="FilePathTextBlock" TextWrapping="Wrap" VerticalAlignment="Center" Margin="4" />
+            <Button x:Name="OpenButton" Content="Open file" Margin="4" Command="{Binding WorkbookSelector.OpenFileCommand}" />
+            <TextBlock x:Name="FilePathTextBlock" TextWrapping="Wrap" VerticalAlignment="Center" Margin="4" Text="{Binding WorkbookSelector.Workbook.Value}" />
             <TextBlock Text="Table:" VerticalAlignment="Center" Margin="4" />
-            <ComboBox x:Name="TablesComboBox" IsEnabled="False" SelectionChanged="TablesComboBox_SelectionChanged" Margin="4" />
-            <Button x:Name="SetFilterButton" Content="Set filter" Click="SetFilterButton_Click" Margin="4" />
-            <TextBlock x:Name="FilterTextBlock" Margin="4" />
-            <Button x:Name="ClearFilterButton" Content="Clear filter" Margin="4" Click="ClearFilterButton_Click" />
+            <ComboBox x:Name="TablesComboBox" Margin="4" ItemsSource="{Binding TableSelector.Tables.Value}" SelectedItem="{Binding TableSelector.Table.Value}" />
+            <Button x:Name="SetFilterButton" Content="Set filter" Margin="4" Command="{Binding FilterSelector.SetFilterCommand}" />
+            <TextBlock x:Name="FilterTextBlock" Margin="4" Text="{Binding FilterSelector.Filter.Value}" />
+            <Button x:Name="ClearFilterButton" Content="Clear filter" Margin="4" Command="{Binding FilterSelector.ClearFilterCommand}" />
             <TextBlock Text="Key:" VerticalAlignment="Center" Margin="4" />
-            <ComboBox x:Name="KeyComboBox" IsEnabled="False" SelectionChanged="KeyComboBox_SelectionChanged" Margin="4" />
+            <ComboBox x:Name="KeyComboBox" Margin="4" ItemsSource="{Binding KeySelector.Keys.Value}" SelectedItem="{Binding KeySelector.Key.Value}" />
         </StackPanel>
 
         <DataGrid Grid.Column="1"

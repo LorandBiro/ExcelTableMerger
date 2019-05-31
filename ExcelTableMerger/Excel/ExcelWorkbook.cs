@@ -34,5 +34,7 @@ namespace ExcelTableMerger.Excel
         {
             this.fileStream.Dispose();
         }
+
+        public override string ToString() => this.FilePath;
     }
 }

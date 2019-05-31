@@ -62,6 +62,8 @@ namespace ExcelTableMerger.Excel
 
         public ExcelWorkbook Workbook { get; }
 
+        public string Name => this.table.Name;
+
         public override string ToString() => $"{this.table.Name} - {this.Rows.Count} rows";
 
         private static object ReadCell(ICell cell)

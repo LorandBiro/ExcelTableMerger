@@ -75,6 +75,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\Common\Command.cs" />
+    <Compile Include="ViewModels\Common\IObservableProperty.cs" />
+    <Compile Include="ViewModels\Common\ObservableProperty.cs" />
+    <Compile Include="ViewModels\DataSelectorViewModel.cs" />
+    <Compile Include="ViewModels\DataSelector\FilterSelectorViewModel.cs" />
+    <Compile Include="ViewModels\DataSelector\KeySelectorViewModel.cs" />
+    <Compile Include="ViewModels\DataSelector\PreviewViewModel.cs" />
+    <Compile Include="ViewModels\DataSelector\TableSelectorViewModel.cs" />
+    <Compile Include="ViewModels\DataSelector\WorkbookSelectorViewModel.cs" />
     <Page Include="MappingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
