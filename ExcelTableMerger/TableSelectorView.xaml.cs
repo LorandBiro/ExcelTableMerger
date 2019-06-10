@@ -8,20 +8,16 @@ namespace ExcelTableMerger
 {
     public partial class TableSelectorView : UserControl, IView
     {
+        private readonly DataSelectorViewModel viewModel;
+
         public TableSelectorView(bool isMain)
         {
-            DataSelectorViewModel viewModel = new DataSelectorViewModel(isMain ? "MainWorkbookFilePath" : "LookupWorkbookFilePath");
+            this.viewModel = new DataSelectorViewModel(isMain ? "Main table" : "Lookup table", isMain);
 
             this.InitializeComponent();
             this.DataContext = viewModel;
-            this.Title = isMain ? "Main table" : "Lookup table";
-            viewModel.DataSource.Changed += dataSource =>
-                {
-                    this.IsReady = dataSource != null;
-                    this.IsReadyChanged?.Invoke();
-                    this.DataSource = dataSource;
-                };
-            viewModel.Preview.Columns.Changed += columns =>
+            this.viewModel.IsReady.Changed += isReady => this.IsReadyChanged?.Invoke();
+            this.viewModel.Preview.Columns.Changed += columns =>
             {
                 this.PreviewDataGrid.Columns.Clear();
                 if (columns == null)
@@ -34,17 +30,22 @@ namespace ExcelTableMerger
                     this.PreviewDataGrid.Columns.Add(new DataGridTextColumn { Header = columns[i], Binding = new Binding($"[{i}]"), MaxWidth = 200.0 });
                 }
             };
-            viewModel.Preview.Rows.Changed += rows => this.PreviewDataGrid.ItemsSource = rows;
+            this.viewModel.Preview.Rows.Changed += rows => this.PreviewDataGrid.ItemsSource = rows;
         }
 
         public event Action IsReadyChanged;
 
-        public string Title { get; }
+        public string Title => this.viewModel.Title;
 
-        public bool IsReady { get; private set; }
+        public bool IsReady => this.viewModel.IsReady.Value;
 
-        public DataSource DataSource { get; private set; }
+        public DataSource DataSource => this.viewModel.DataSource.Value;
 
         public void Prepare() { }
+
+        public void OnNext()
+        {
+            this.viewModel.OnNext();
+        }
     }
 }

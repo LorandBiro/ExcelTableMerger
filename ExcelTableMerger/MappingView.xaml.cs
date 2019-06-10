@@ -105,5 +105,9 @@ namespace ExcelTableMerger
             this.MainUnmatchedDataGrid.ItemsSource = mainUnmatchedRows;
             this.LookupUnmatchedDataGrid.ItemsSource = lookupUnmatchedRows;
         }
+
+        public void OnNext()
+        {
+        }
     }
 }

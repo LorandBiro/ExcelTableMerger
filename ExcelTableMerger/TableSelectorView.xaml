@@ -30,6 +30,7 @@
                   EnableRowVirtualization="True"
                   EnableColumnVirtualization="True"
                   ScrollViewer.CanContentScroll="True"
-                  ColumnWidth="100.0" />
+                  ColumnWidth="100.0"
+                  AutoGenerateColumns="False" />
     </Grid>
 </UserControl>

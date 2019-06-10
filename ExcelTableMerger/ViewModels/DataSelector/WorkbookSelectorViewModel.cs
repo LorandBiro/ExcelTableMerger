@@ -1,19 +1,18 @@
-﻿using ExcelTableMerger.Excel;
-using ExcelTableMerger.Properties;
+﻿using ExcelTableMerger.Configuration;
+using ExcelTableMerger.Excel;
 using ExcelTableMerger.ViewModels.Common;
 using Microsoft.Win32;
-using System;
 using System.IO;
 
 namespace ExcelTableMerger.ViewModels.DataSelector
 {
     public sealed class WorkbookSelectorViewModel
     {
-        private readonly string filePathConfigurationKey;
+        private readonly bool isMain;
 
-        public WorkbookSelectorViewModel(string filePathConfigurationKey)
+        public WorkbookSelectorViewModel(bool isMain)
         {
-            this.filePathConfigurationKey = filePathConfigurationKey ?? throw new ArgumentNullException(nameof(filePathConfigurationKey));
+            this.isMain = isMain;
 
             this.Workbook = new ObservableProperty<ExcelWorkbook>();
             this.OpenFileCommand = new Command(this.OpenFile);
@@ -24,7 +23,8 @@ namespace ExcelTableMerger.ViewModels.DataSelector
 
         private void OpenFile()
         {
-            string filePath = (string)Settings.Default[this.filePathConfigurationKey];
+            Config config = ConfigRepository.Instance.Get();
+            string filePath = this.isMain ? config.LastMainFilePath : config.LastLookupFilePath;
             OpenFileDialog ofd = new OpenFileDialog()
                 {
                     Filter = "Excel Files (*.xlsx; *.xlsm)|*.xlsx; *.xlsm",
@@ -39,9 +39,16 @@ namespace ExcelTableMerger.ViewModels.DataSelector
                     this.Workbook.Value.Dispose();
                 }
 
-                Settings.Default[this.filePathConfigurationKey] = ofd.FileName;
-                Settings.Default.Save();
+                if (this.isMain)
+                {
+                    config.LastMainFilePath = ofd.FileName;
+                }
+                else
+                {
+                    config.LastLookupFilePath = ofd.FileName;
+                }
 
+                ConfigRepository.Instance.Set(config);
                 this.Workbook.Value = new ExcelWorkbook(ofd.FileName);
             }
         }

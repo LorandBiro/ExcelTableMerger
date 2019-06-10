@@ -11,5 +11,7 @@ namespace ExcelTableMerger
         bool IsReady { get; }
 
         void Prepare();
+
+        void OnNext();
     }
 }

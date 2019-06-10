@@ -29,6 +29,10 @@ namespace ExcelTableMerger
 
         public event Action IsReadyChanged;
 
+        public void OnNext()
+        {
+        }
+
         public void Prepare()
         {
             this.JoinedDataGrid.ItemsSource = null;

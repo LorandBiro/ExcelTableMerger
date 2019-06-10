@@ -65,6 +65,7 @@ namespace ExcelTableMerger
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
+            this.activeView.OnNext();
             this.SetActiveView(this.views[Array.IndexOf(this.views, this.activeView) + 1]);
         }
 
