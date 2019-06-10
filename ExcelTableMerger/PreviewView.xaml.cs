@@ -2,6 +2,7 @@
 using ExcelTableMerger.Merge;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -47,7 +48,7 @@ namespace ExcelTableMerger
                 this.lookupDataSelectorView.DataSource,
                 this.mappingView.Mappings,
                 this.mappingView.AddEnabled,
-                this.mappingView.RemoveEnabled);
+                this.mappingView.RemoveEnabled).Where(x => x.Kind != MergeKind.Unmodified).ToList();
         }
     }
 }

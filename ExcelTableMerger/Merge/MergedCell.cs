@@ -23,7 +23,14 @@
 
                 if (Cell.Empty(this.OldValue))
                 {
-                    return MergeKind.Added;
+                    if (Cell.Empty(this.NewValue))
+                    {
+                        return MergeKind.Unmodified;
+                    }
+                    else
+                    {
+                        return MergeKind.Added;
+                    }
                 }
 
                 if (Cell.Empty(this.NewValue))

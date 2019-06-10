@@ -32,9 +32,9 @@ namespace ExcelTableMerger
 
         public IReadOnlyCollection<Mapping> Mappings => this.MappingRoot.Children.Cast<MappingControl>().Select(x => x.Mapping).ToList();
 
-        public bool AddEnabled => this.AddRowsCheckBox.IsEnabled == true;
+        public bool AddEnabled => this.AddRowsCheckBox.IsChecked == true;
 
-        public bool RemoveEnabled => this.DeleteRowsCheckBox.IsEnabled == true;
+        public bool RemoveEnabled => this.DeleteRowsCheckBox.IsChecked == true;
 
         public void Prepare()
         {
@@ -58,6 +58,10 @@ namespace ExcelTableMerger
                 {
                     isEnabled = false;
                     selectedColumn = this.lookupDataSource.Key;
+                }
+                else
+                {
+                    selectedColumn = this.lookupDataSource.Table.Columns.FirstOrDefault(x => x.Name == column.Name);
                 }
 
                 this.MappingRoot.Children.Add(new MappingControl(column, this.lookupDataSource.Table.Columns, selectedColumn) { IsEnabled = isEnabled });

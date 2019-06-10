@@ -69,7 +69,7 @@ namespace ExcelTableMerger.Merge
                     }
                 }
                 
-                yield return new MergedRow(matchedRow.Main.Index, cells, kind);
+                yield return new MergedRow(index, cells, kind);
             }
         }
 
@@ -87,7 +87,8 @@ namespace ExcelTableMerger.Merge
                 Mapping mapping = mappingsByIndex[i];
                 if (mapping == null)
                 {
-                    setters[i] = (main, lookup) => main == null ? null : main[i];
+                    int i2 = i;
+                    setters[i] = (main, lookup) => main == null ? null : main[i2];
                 }
                 else
                 {

@@ -41,7 +41,7 @@ namespace ExcelTableMerger
                     control.OldValueTextBlock.Visibility = Visibility.Collapsed;
                     control.NewValueTextBlock.Foreground = UnmodifiedForeground;
                     control.NewValueTextBlock.Visibility = Visibility.Visible;
-                    control.NewValueTextBlock.Text = cell.NewValue.ToString();
+                    control.NewValueTextBlock.Text = cell.NewValue?.ToString();
                     break;
                 case MergeKind.Modified:
                     control.Background = ModifiedBackground;
