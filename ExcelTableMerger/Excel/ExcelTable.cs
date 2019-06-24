@@ -77,7 +77,7 @@ namespace ExcelTableMerger.Excel
             switch (type)
             {
                 case CellType.Blank: return null;
-                case CellType.Numeric: return cell.NumericCellValue;
+                case CellType.Numeric: return DateUtil.IsCellDateFormatted(cell) ? cell.DateCellValue : (object)cell.NumericCellValue;
                 case CellType.String: return cell.StringCellValue;
                 case CellType.Boolean: return cell.BooleanCellValue;
                 default:
