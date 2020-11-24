@@ -54,6 +54,7 @@ namespace ExcelTableMerger.Merge
                 }
                 else
                 {
+                    index = matchedRow.Main.Index;
                     for (int i = 0; i < columnCount; i++)
                     {
                         cells[i] = new MergedCell(matchedRow.Main[i], getters[i](matchedRow.Main, matchedRow.Lookup));

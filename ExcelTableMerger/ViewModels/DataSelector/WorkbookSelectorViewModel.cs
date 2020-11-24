@@ -34,11 +34,6 @@ namespace ExcelTableMerger.ViewModels.DataSelector
 
             if (ofd.ShowDialog() == true)
             {
-                if (this.Workbook.Value != null)
-                {
-                    this.Workbook.Value.Dispose();
-                }
-
                 if (this.isMain)
                 {
                     config.LastMainFilePath = ofd.FileName;

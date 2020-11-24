@@ -14,6 +14,7 @@ namespace ExcelTableMerger
         private readonly TableSelectorView mainDataSelectorView;
         private readonly TableSelectorView lookupDataSelectorView;
         private readonly MappingView mappingView;
+        private List<MergedRow> mergedRows;
 
         public PreviewView(TableSelectorView mainDataSelectorView, TableSelectorView lookupDataSelectorView, MappingView mappingView)
         {
@@ -26,7 +27,7 @@ namespace ExcelTableMerger
 
         public string Title => "Preview";
 
-        public bool IsReady => false;
+        public bool IsReady => true;
 
         public event Action IsReadyChanged;
 
@@ -43,12 +44,55 @@ namespace ExcelTableMerger
                 this.JoinedDataGrid.Columns.Add(new DataGridBoundTemplateColumn() { Header = column.Name, Binding = new Binding($"Cells[{column.Index}]"), CellTemplate = (DataTemplate)this.Resources["MergedCellTemplate"] });
             }
 
-            this.JoinedDataGrid.ItemsSource = Merger.Merge(
+            this.mergedRows = Merger.Merge(
                 this.mainDataSelectorView.DataSource,
                 this.lookupDataSelectorView.DataSource,
                 this.mappingView.Mappings,
                 this.mappingView.AddEnabled,
                 this.mappingView.RemoveEnabled).Where(x => x.Kind != MergeKind.Unmodified).ToList();
+            this.JoinedDataGrid.ItemsSource = this.mergedRows;
+        }
+
+        private void MergeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show(App.Current.MainWindow, "Are you sure?", "Are you sure?", MessageBoxButton.OKCancel, MessageBoxImage.Warning) != MessageBoxResult.OK)
+            {
+                return;
+            }
+
+            ExcelTable table = this.mainDataSelectorView.DataSource.Table;
+            foreach (MergedRow mergedRow in this.mergedRows.Where(x => x.Kind == MergeKind.Modified))
+            {
+                for (int i = 0; i < mergedRow.Cells.Count; i++)
+                {
+                    MergedCell mergedCell = mergedRow.Cells[i];
+                    if (mergedCell.Kind != MergeKind.Unmodified)
+                    {
+                        table.SetCell(mergedRow.Index, i, mergedCell.NewValue);
+                    }
+                }
+            }
+
+            int newRowCount = 0;
+            foreach (MergedRow mergedRow in this.mergedRows.Where(x => x.Kind == MergeKind.Added))
+            {
+                for (int i = 0; i < mergedRow.Cells.Count; i++)
+                {
+                    table.SetCell(table.Rows.Count + newRowCount, i, mergedRow.Cells[i].NewValue);
+                }
+
+                newRowCount++;
+            }
+
+            int deletedRowCount = 0;
+            foreach (MergedRow mergedRow in this.mergedRows.Where(x => x.Kind == MergeKind.Removed).OrderByDescending(x => x.Index))
+            {
+                table.RemoveRow(mergedRow.Index);
+
+                deletedRowCount++;
+            }
+
+            table.Workbook.Save();
         }
     }
 }

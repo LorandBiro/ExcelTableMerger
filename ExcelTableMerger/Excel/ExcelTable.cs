@@ -64,6 +64,71 @@ namespace ExcelTableMerger.Excel
 
         public string Name => this.table.Name;
 
+        public void SetCell(int rowIndex, int columnIndex, object value)
+        {
+            IRow row = this.sheet.GetRow(this.firstRow + rowIndex);
+            if (row == null)
+            {
+                if (value == null)
+                {
+                    return;
+                }
+
+                row = this.sheet.CreateRow(this.firstRow + rowIndex);
+            }
+
+            ICell cell = row.GetCell(this.firstColumn + columnIndex);
+            if (cell == null)
+            {
+                if (value == null)
+                {
+                    return;
+                }
+
+                cell = row.CreateCell(this.firstColumn + columnIndex);
+            }
+
+            if (value == null)
+            {
+                row.RemoveCell(cell);
+                return;
+            }
+
+            if (value is bool boolValue)
+            {
+                cell.SetCellValue(boolValue);
+            }
+            else if (value is double numericValue)
+            {
+                cell.SetCellValue(numericValue);
+            }
+            else if (value is DateTime dateValue)
+            {
+                cell.SetCellValue(dateValue);
+            }
+            else if (value is string stringValue)
+            {
+                cell.SetCellValue(stringValue);
+            }
+            else
+            {
+                throw new ArgumentException("Unsupported value type.", nameof(value));
+            }
+        }
+
+        public void RemoveRow(int rowIndex)
+        {
+            rowIndex += this.firstRow;
+            IRow row = this.sheet.GetRow(rowIndex);
+            if (row == null)
+            {
+                return;
+            }
+
+            sheet.RemoveRow(row);
+            sheet.ShiftRows(rowIndex + 1, sheet.LastRowNum, -1);
+        }
+
         public override string ToString() => $"{this.table.Name} - {this.Rows.Count} rows";
 
         private static object ReadCell(ICell cell)

@@ -6,19 +6,19 @@ using System.Linq;
 
 namespace ExcelTableMerger.Excel
 {
-    public sealed class ExcelWorkbook : IDisposable
+    public sealed class ExcelWorkbook
     {
-        private readonly FileStream fileStream;
-
+        private readonly XSSFWorkbook workbook;
+        
         public ExcelWorkbook(string filePath)
         {
-            this.fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
             List<ExcelTable> tables = new List<ExcelTable>();
-            XSSFWorkbook workbook = new XSSFWorkbook(this.fileStream);
-            for (int i = 0; i < workbook.NumberOfSheets; i++)
+            this.workbook = new XSSFWorkbook(fileStream);
+            for (int i = 0; i < this.workbook.NumberOfSheets; i++)
             {
-                XSSFSheet sheet = (XSSFSheet)workbook.GetSheetAt(i);
+                XSSFSheet sheet = (XSSFSheet)this.workbook.GetSheetAt(i);
                 tables.AddRange(sheet.GetTables().Select(x => new ExcelTable(this, x)));
             }
 
@@ -30,9 +30,12 @@ namespace ExcelTableMerger.Excel
 
         public IReadOnlyCollection<ExcelTable> Tables { get; private set; }
 
-        public void Dispose()
+        public void Save()
         {
-            this.fileStream.Dispose();
+            using (FileStream fs = new FileStream(this.FilePath, FileMode.Create))
+            {
+                this.workbook.Write(fs);
+            }
         }
 
         public override string ToString() => this.FilePath;

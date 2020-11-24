@@ -13,6 +13,10 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <DataGrid x:Name="JoinedDataGrid"
                   EnableRowVirtualization="True"
                   EnableColumnVirtualization="True"
@@ -42,5 +46,6 @@
                 <local:DataGridBoundTemplateColumn Header="Test" Binding="{Binding Cells[2]}" CellTemplate="{StaticResource MergedCellTemplate}" />
             </DataGrid.Columns>
         </DataGrid>
+        <Button Content="Merge!" Grid.Row="1" Margin="4" Click="MergeButton_Click" />
     </Grid>
 </UserControl>

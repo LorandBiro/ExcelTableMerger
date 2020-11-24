@@ -10,16 +10,16 @@ namespace ExcelTableMerger.Merge
         {
             List<ExcelRow> mainRows = main.GetRows().ToList();
             List<ExcelRow> lookupRows = lookup.GetRows().ToList();
-            Dictionary<object, int> lookupRowIndices = new Dictionary<object, int>();
+            Dictionary<string, int> lookupRowIndices = new Dictionary<string, int>();
             for (int i = 0; i < lookupRows.Count; i++)
             {
-                lookupRowIndices[lookupRows[i][lookup.Key]] = i;
+                lookupRowIndices[lookupRows[i][lookup.Key].ToString().Trim()] = i;
             }
 
             List<MatchedRow> matchedRows = new List<MatchedRow>();
             foreach (ExcelRow mainRow in mainRows)
             {
-                object key = mainRow[main.Key];
+                string key = mainRow[main.Key].ToString().Trim();
                 ExcelRow lookupRow = null;
                 if (lookupRowIndices.TryGetValue(key, out int lookupRowIndex))
                 {
