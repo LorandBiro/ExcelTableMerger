@@ -2,7 +2,9 @@
 using ExcelTableMerger.Excel;
 using ExcelTableMerger.ViewModels.Common;
 using Microsoft.Win32;
+using System;
 using System.IO;
+using System.Windows;
 
 namespace ExcelTableMerger.ViewModels.DataSelector
 {
@@ -44,7 +46,14 @@ namespace ExcelTableMerger.ViewModels.DataSelector
                 }
 
                 ConfigRepository.Instance.Set(config);
-                this.Workbook.Value = new ExcelWorkbook(ofd.FileName);
+                try
+                {
+                    this.Workbook.Value = new ExcelWorkbook(ofd.FileName);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message + "\r\n\r\nFix the error and try again.", "Invalid file", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }
